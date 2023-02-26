@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import "../styles/upload.css"
 import CONSTANTS from "../constants";
+import uploadImage from "../images/upload.svg";
 
 const endIndSuffixs = ["mov", "mp4", "pdf", "MOV", "MP4", "PDF"];
 
@@ -50,22 +51,21 @@ function Upload() {
     };
 
     const handleSubmit = async () => {
-        console.log('handleSubmit');
         let formData = new FormData();
-        const data = []
-        selectedFiles.forEach((file) => {
-            const message = {
-                "type": file.ext,
-                "file": file
-            }
-            data.push(message);
+        console.log(selectedFiles);
+        selectedFiles.forEach((file, i) => {
+            formData.append(`file`, file);
         });
-        formData.append("title", title);
-        formData.append("files", data);
+        formData.append(`title`, title);
+        setTitle("");
+        setSelectedFiles([]);
+        setBadUpload(false);
+        console.log(formData);
         const response = await fetch(CONSTANTS.API_ENDPOINT + CONSTANTS.SEND_DATA, {
             method: 'POST',
             headers: {
-                "x-access'cramberry-auth-token": window.localStorage.getItem(CONSTANTS.TOKEN)
+                "x-access'cramberry-auth-token": window.localStorage.getItem(CONSTANTS.TOKEN),
+                // "Content-Type": "multipart/form-data",
             },
             body: formData
         });
@@ -74,21 +74,25 @@ function Upload() {
     };
 
     return (
-        <div>
-            <h1>Upload</h1>
-            <input type="text" placeholder="Title" value={title} onChange={(e) => { setTitle(e.target.value) }} />
-            <input type="file" id="selectedFile" ref={inputFileRef} onChange={handleFileInputChange} multiple />
-            <input type="button" value="Browse..." onClick={() => { inputFileRef.current.click() }} />
-            {selectedFiles.map((file, i) => {
-                return (
-                    <div key={`${i}-${file.name}`} className="file">
-                        <span>{((file.name.length < 21) ? file.name : `${file.name.substr(0, 20)} ...`)}</span>
-                        <button onClick={() => { handleDelete(file) }}>Delete</button>
-                    </div>
-                );
-            })}
-            {badUpload && <div className="error">Unsupported File Type</div>}
-            <input type="button" value="Submit" onClick={handleSubmit} />
+        <div className="Upload">
+            <div className="upload-top">
+                <h1>Upload PDFs and Videos</h1>
+                <input id="upload-text" type="text" placeholder="Name your summary" value={title} onChange={(e) => { setTitle(e.target.value) }} />
+                <input type="file" id="selectedFile" ref={inputFileRef} onChange={handleFileInputChange} multiple />
+                <div className="upload-div" onClick={() => { inputFileRef.current.click() }} >
+                    <img src={uploadImage} alt="Upload Image" />
+                </div>
+                {selectedFiles.map((file, i) => {
+                    return (
+                        <div key={`${i}-${file.name}`} className="file">
+                            <span>{((file.name.length < 21) ? file.name : `${file.name.substr(0, 20)} ...`)}</span>
+                            <button onClick={() => { handleDelete(file) }}>x</button>
+                        </div>
+                    );
+                })}
+                {badUpload && <div className="file">Unsupported File Type</div>}
+            </div>
+            <button className="submitButton" value="Submit" onClick={handleSubmit} >Submit</button>
         </div>
     );
 }

@@ -2,15 +2,122 @@
     display: none;
 }
 
+
+
+.Upload {
+    width: 35%;
+    padding: 20px;
+    aspect-ratio: 1/1;
+    background-color: var(--primary1);
+    display: flex;
+    border-radius: 8%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-between;
+}
+
+.upload-top {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.Upload h1 {
+    font-size: 25px;
+    font-weight: 300;
+    color: var(--white);
+}
+
+#upload-text {
+    border: none;
+    margin-top: 10px;
+    width: 80%;
+    height: 35px;
+    padding: 0px 10px;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.upload-div {
+    margin-top: 10px;
+    width: 80%;
+    height: 35px;
+    border-radius: 15px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-div:hover {
+    cursor: pointer;
+    background-color: #f8fafc;
+}
+
+.upload-div img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+#upload-text::placeholder {
+    color: #929191;
+}
+
+#upload-text:focus {
+    outline: none;
+    color: var(--primary1);
+}
+
+
 .file {
-    width: 350px;
-    height: 25px;
-    background-color: aliceblue;
-    border-radius: 5px;
+    width: 80%;
+    height: 35px;
+    background-color: #fff;
+    border-radius: 15px;
     display: flex;
     flex-direction: row;
     padding: 5px;
+    margin-top: 10px;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    padding: 0px 10px
+}
+
+.file button {
+    border: none;
+    background-color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary1);
+    margin-right: 5px;
+}
+
+.file button:hover {
+    cursor: pointer;
+    color: var(--offBlack);
+}
+
+.submitButton {
+    width: 80%;
+    height: 35px;
+    background-color: var(--white);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    border: none;
+    text-align: center;
+}
+
+.submitButton:hover {
+    cursor: pointer;
+    background-color: #f8fafc;
 }

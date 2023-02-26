@@ -3,7 +3,8 @@ import { Redirect } from 'react-router-dom';
 import CONSTANTS from '../constants';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import "../styles/Home.css"
+import "../styles/Home.css";
+import logo from '../images/logo.png';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCki6J5oxgPcsIEte8PmOFwk03qWpD86oM",
@@ -38,7 +39,6 @@ const Home = () => {
                     .then(async (response) => {
                         const data = await response.json();
                         if (response.ok) {
-                            console.log('ok response');
                             window.localStorage.setItem(CONSTANTS.TOKEN, data.token);
                             setRedirect(true);
                         }
@@ -53,13 +53,19 @@ const Home = () => {
 
     return (
         <div className="Home">
-            <h1>Home</h1>
-            <button className="login-btn" onClick={handleGoogle}>
-                Login
-            </button>
-            <button className="signup-with-google-btn" onClick={handleGoogle}>
-                Sign Up
-            </button>
+            <div className="top-content-home">
+                <div className="logoDiv">
+                    <img src={logo} alt="logo" />
+                    <h4>cramberry</h4>
+                </div>
+                <button className="login-btn" onClick={handleGoogle}>
+                    Login
+                </button>
+                <button className="signup-with-google-btn" onClick={handleGoogle}>
+                    Sign Up
+                </button>
+            </div>
+
         </div>
     );
 }

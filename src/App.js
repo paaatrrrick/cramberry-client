@@ -2,6 +2,7 @@ import { Route, Switch } from "react-router-dom";
 import Home from './views/Home';
 import Dashboard from './views/Dashboard';
 import Summary from "./views/Summary";
+import './styles/App.css';
 
 const App = () => {
   return (
