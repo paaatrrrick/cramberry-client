@@ -1,6 +1,5 @@
-import offer from "./files/offer.pdf";
-import wordsmith from "./files/wortuneVid.mp4";
-
+const offer = "https://res.cloudinary.com/dlk3ezbal/image/upload/v1677413167/cramberry/cfzqnhwp04xaqlqauyvu.pdf";
+const wordsmith = "https://res.cloudinary.com/dlk3ezbal/video/upload/v1677413167/cramberry/lxgokwodalpkqlpbcenk.mp4";
 
 const highLevelSummaries = [
     {
