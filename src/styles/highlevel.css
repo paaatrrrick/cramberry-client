@@ -1,0 +1,21 @@
+.Highlevel {
+    width: 45%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 20px;
+    overflow-y: scroll;
+}
+
+.loginRight {
+    margin-left: 10px;
+    margin-top: 15px;
+    font-size: 22px;
+}
+
+.loginRight:hover {
+    color: var(--primary1);
+    cursor: pointer;
+}
