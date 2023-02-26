@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../styles/upload.css"
 import CONSTANTS from "../constants";
 import uploadImage from "../images/upload.svg";
+import Cloudinary from "../views/Cloudinary";
 
 const endIndSuffixs = ["mov", "mp4", "pdf", "MOV", "MP4", "PDF"];
 
@@ -11,6 +12,42 @@ function Upload() {
     const [title, setTitle] = useState("");
     const [badUpload, setBadUpload] = useState(false);
     const inputFileRef = useRef(null);
+
+
+    const [selectedFiles2, setSelectedFiles2] = useState([]);
+    const cloudinaryRef = useRef();
+    const widgetRef = useRef();
+
+    useEffect(() => {
+        cloudinaryRef.current = window.cloudinary;
+        widgetRef.current = cloudinaryRef.current.createUploadWidget(
+            {
+                cloudName: "dlk3ezbal",
+                uploadPreset: "cramberry",
+                sources: ["local", "url", "image_search"],
+            }, function (error, result) {
+                console.log('we are back!!');
+                console.log(result);
+                let urls = [];
+                if (result) {
+                    if (result.info) {
+                        if (result.info.files) {
+                            result.info.files.forEach((file) => {
+                                if (file.uploadInfo) {
+                                    const type = ((file.uploadInfo.format === "pdf") ? "pdf" : "video");
+                                    urls.push({ file: file.uploadInfo.secure_url, type: type, id: selectedFiles2.length + 1 });
+                                    console.log('adding!!');
+                                    console.log(urls);
+                                }
+                            });
+                        }
+                    }
+                }
+                console.log(urls);
+                console.log(selectedFiles2);
+                setSelectedFiles2([...selectedFiles2, ...urls]);
+            });
+    }, []);
 
     const handleFileInputChange = (event) => {
         setBadUpload(false);
@@ -51,23 +88,19 @@ function Upload() {
     };
 
     const handleSubmit = async () => {
-        let formData = new FormData();
-        console.log(selectedFiles);
-        selectedFiles.forEach((file, i) => {
-            formData.append(`file`, file);
-        });
-        formData.append(`title`, title);
-        setTitle("");
-        setSelectedFiles([]);
-        setBadUpload(false);
-        console.log(formData);
+        console.log(selectedFiles2);
+        const data = {
+            title: title,
+            files: selectedFiles2
+        }
+        console.log('handling submit!!');
+        console.log(data);
         const response = await fetch(CONSTANTS.API_ENDPOINT + CONSTANTS.SEND_DATA, {
             method: 'POST',
             headers: {
                 "x-access'cramberry-auth-token": window.localStorage.getItem(CONSTANTS.TOKEN),
-                // "Content-Type": "multipart/form-data",
             },
-            body: formData
+            body: JSON.stringify(data)
         });
         const result = await response.json();
         console.log(result);
@@ -91,6 +124,7 @@ function Upload() {
                     );
                 })}
                 {badUpload && <div className="file">Unsupported File Type</div>}
+                <Cloudinary />
             </div>
             <button className="submitButton" value="Submit" onClick={handleSubmit} >Submit</button>
         </div>
